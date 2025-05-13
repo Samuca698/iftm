@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Página Estilizada</title>
+  <title>Document</title>
   <style>
     h1 {
       color: red;

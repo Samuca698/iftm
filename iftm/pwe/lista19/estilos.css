@@ -59,6 +59,8 @@ header nav ul a:hover {
 .sectionManutencao img {
     width: 600px;
     margin: 20px;
+    text-align: center;
+    margin: 0 auto;
 }
 .sectionManutencao p, .sectionManutencao h2 {
     text-align: justify;

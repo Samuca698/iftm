@@ -24,7 +24,7 @@ footer {
 
 .caixa {
     background-color: rgb(212, 195, 163);
-    padding: 15px;
+    padding: 20px;
 }
 
 .box {
@@ -548,4 +548,177 @@ footer p {
 
 .hr8{
     margin-bottom: 10%;
+}
+
+.bolinha li {
+    list-style: none;
+}
+
+/*mobile*/
+
+@media screen and (max-width: 768px) {
+
+  .logo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .bed, .pe, .botaum {
+    font-size: 14px;
+    padding: 6px;
+    margin: 5px;
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .botaum {
+    padding-left: 20%;
+    padding-right: 20%;
+    margin-top: 20px;
+  }
+
+  .box {
+    flex-direction: column;
+    margin: 0;
+    align-items: center;
+  }
+
+  .box>div {
+    margin: 10px;
+  }
+
+  .box2 > div > p,
+  .box2 > div > h2,
+  .box3 > div p,
+  .lado4 p,
+  .lado5 p,
+  .box5 p,
+  .ajuste1 p,
+  .box6 > div ol,
+  .box7 > div ol,
+  .box10 > div ul,
+  .texto1 p,
+  .texto2 p,
+  details p {
+    font-size: 14px;
+    width: 100%;
+    margin: 10px auto;
+  }
+
+  .box2 > div > h2,
+  h3, h4, .box5 h5, .box8 h1 {
+    font-size: 18px;
+  }
+
+  img,
+  .box3 > div img,
+  .lado4 img,
+  .lado5 img,
+  .box5 img,
+  .ajuste1 img,
+  .box6 > div img,
+  .box7 > div img,
+  .imagens1 img,
+  .imagens2 img {
+    width: 100%;
+    height: auto;
+    margin: 10px auto;
+    display: block;
+  }
+
+  .box6,
+  .box7,
+  .lado4,
+  .box5,
+  .roda {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .box6 > div,
+  .box7 > div {
+    width: 90%;
+    padding: 5%;
+    margin: 10px auto;
+  }
+
+  .box6 > div h5,
+  .box7 > div h5 {
+    font-size: 14px;
+    margin: 10px auto;
+  }
+
+  .box6 > div ol,
+  .box7 > div ol {
+    font-size: 14px;
+    margin-left: 0;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .box10 > div iframe {
+    width: 100%;
+    height: auto;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+
+  .box10 > div ul {
+    padding: 0;
+    margin: 20px auto;
+  }
+
+  .box2 summary {
+    width: 50%;
+    font-size: 14px;
+    padding: 5px;
+  }
+
+  .texto1 p,
+  .texto2 p {
+    margin: 10px auto;
+    padding: 0 10px;
+    text-align: center;
+  }
+
+  .hr8,
+  footer hr {
+    margin: 5% auto;
+  }
+
+  footer {
+    padding: 5%;
+    text-align: center;
+  }
+
+  footer p {
+    font-size: 14px;
+  }
+
+  .box8 p {
+    font-size: 14px;
+    margin: 5%;
+  }
+
+  .box9 {
+    padding: 5%;
+  }
+
+  .box4 hr {
+    margin-top: 0;
+  }
+
+  .tt {
+    margin-top: 20%;
+  }
+
+  .rodape {
+    margin-top: 10%;
+  }
+
+  .bolinha li {
+    font-size: 14px;
+  }
 }

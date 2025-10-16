@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilos.css">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+      window.addEventListener("load", function () {
+  const linksCartas = [
+            "img/carta1.png", 
+            "img/carta2.png", 
+            "img/carta3.png", 
+            "img/carta4.png", 
+            "img/carta5.png", 
+            "img/carta6.png",
+            "img/carta7.png", 
+            "img/carta8.png", 
+            "img/carta9.png", 
+            "img/carta10.png",
+            "img/carta11.png", 
+            "img/carta12.png",
+            "img/carta13.png", 
+            "img/carta14.png", 
+            "img/carta15.png", 
+            "img/carta16.png", 
+            "img/carta17.png", 
+            "img/carta18.png", 
+            "img/carta19.png", 
+            "img/carta20.png", 
+            "img/carta21.png", 
+            "img/carta22.png", 
+            "img/carta23.png",
+            "img/carta24.png", 
+            "img/carta25.png", 
+            "img/carta26.png", 
+            "img/carta27.png" 
+        ];
+      
+        let vetorCartas = [];
+        for (let i = 1; i <= 27; i++) {
+            vetorCartas.push(i);
+        }
+        
+        function gerarParesAleatorios(vetorBase, quantidadePares) {
+            let vetorPares = [];
+            let copiaVetor = [...vetorBase]; 
+
+            for (let i = 0; i < quantidadePares; i++) {
+                let indice = Math.floor(Math.random() * copiaVetor.length);
+                let numero = copiaVetor[indice];
+                vetorPares.push(numero, numero); 
+                copiaVetor.splice(indice, 1); 
+            }
+
+            return vetorPares;
+        }
+
+        function embaralhar(vetor) {
+            for (let i = vetor.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [vetor[i], vetor[j]] = [vetor[j], vetor[i]];
+            }
+        }
+
+        function exibirCartas(vetorPares) {
+            let tabuleiro = document.getElementById("tabuleiro");
+            tabuleiro.innerHTML = ""; 
+
+            vetorPares.forEach(num => {
+                let img = document.createElement("img");
+                img.src = linksCartas[num - 1]; 
+                img.alt = `Carta ${num}`;
+                tabuleiro.appendChild(img);
+            });
+        }
+
+        document.getElementById("btnGerar").addEventListener("click", function() {
+            let vetorPares = gerarParesAleatorios(vetorCartas, 4); 
+            embaralhar(vetorPares);
+            exibirCartas(vetorPares);
+        });
+
+    main();
+})
+      
+    </script>
+
+  <h1>Jogo da Memoria</h1>
+    <button id="btnGerar">Mostrar Cartas</button>
+    <div id="tabuleiro"></div>
+
+</body>
+</html>

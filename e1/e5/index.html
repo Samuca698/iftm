@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<script>
+
+let n = prompt("Quantos nomes deseja digitar?");
+n = parseInt(n);
+let nomes = [];
+
+for (let j = 0; j < n; j++) {
+  nomes.push(prompt("Digite o nome " + (j + 1) + ":"));
+}
+
+let p = document.createElement("p");
+document.body.appendChild(p);
+
+let i = 0;
+let intervalo = setInterval(() => {
+  p.innerHTML += nomes[i] + "<br>";
+  i++;
+  if (i >= nomes.length) clearInterval(intervalo);
+}, 1000);
+
+</script>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<script>
+
+
+function tamanho() {
+  let nome2 = document.getElementById("caixa5").value;
+  let texto = document.getElementById("resultado");
+  texto.innerHTML = nome2;
+  let t = 14;
+  texto.style.fontSize = t + "px";
+  let intervalo = setInterval(function() {
+    t += 2;
+    texto.style.fontSize = t + "px";
+    if (t >= 40) clearInterval(intervalo);
+  }, 500);
+}
+    
+</script>
+
+<div class="ex3">
+
+        <h3>exercicio 3</h3>
+
+        <input type="text" id="caixa5"><br><br>
+        <input type="button" value="clicar" onclick="tamanho()">
+        <p id="resultado"></p>
+    </div>
+
+</body>
+</html>

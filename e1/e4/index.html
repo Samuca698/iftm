@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<script>
+
+let x = prompt("Informe o número de segundos:");
+x = parseInt(x);
+let pq = document.createElement("p");
+document.body.appendChild(pq);
+let t = setInterval(() => {
+  pq.innerText = "Por favor, aguarde " + x + " segundos para carregar a página do Google.";
+  if (x-- <= 0) {
+    clearInterval(t);
+    location.href = "https://www.google.com";
+  }
+}, 1000);
+
+
+</script>
+
+
+</body>
+</html>

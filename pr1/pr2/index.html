@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+
+    <p>1) O texto informado pelo usuário na página anterior:</p>
+    <p id="textoSalvoPg2"></p>
+
+    <p>2) Você gostaria de analisar as informações disponibilizadas pelo usuário da página anterior?</p>
+
+    <form id="formAnalisePg2">
+        <select id="selecaoTipoPg2">
+            <option value="sim">sim</option>
+            <option value="nao">nao</option>
+        </select>
+    </form>
+
+    <p>OBS: Se você respondeu "não" na pergunta anterior, informe um novo texto na caixa abaixo:</p>
+
+    <input type="text" id="entradaTextoPg2" size="70">
+    <input type="button" value="Analisar" id="botaoAnalisarPg2">
+
+    <hr width="100%">
+
+    <p>3) Quantidade de palavras contidas no texto: <span id="totalPalavrasPg2"></span></p>
+
+    <label>4) Palavras iniciadas com a letra M: </label>
+    <input type="text" id="palavrasComMPg2" disabled>
+
+    <br><br>
+
+    <label>5) Primeira palavra do texto: </label>
+    <input type="text" id="primeiraPalavraPg2" disabled><br><br>
+
+    <label>6) Segunda palavra do texto: </label>
+    <input type="text" id="segundaPalavraPg2" disabled><br><br>
+
+    <label>7) Última palavra do texto: </label>
+    <input type="text" id="ultimaPalavraPg2" disabled>
+
+    <br><br>
+    <input type="button" value="Abrir a página do Papai Noel" id="botaoAbrirPg3">
+
+    <script>
+
+window.addEventListener("DOMContentLoaded", function () {
+
+    const entradaTextoPg1 = document.getElementById("entradaTextoPg1");
+    const botaoEnviarPg1 = document.getElementById("botaoEnviarPg1");
+
+    if (botaoEnviarPg1 && entradaTextoPg1) {
+        botaoEnviarPg1.addEventListener("click", function () {
+            localStorage.setItem("informacaoTexto", entradaTextoPg1.value || "");
+            window.open("2index.html", "_self");
+        });
+    }
+
+    let informacaoSalva = localStorage.getItem("informacaoTexto") || "";
+
+    const textoSalvoPg2 = document.getElementById("textoSalvoPg2");
+    if (textoSalvoPg2) {
+        textoSalvoPg2.innerHTML = informacaoSalva;
+    }
+
+    const botaoAbrirPg3 = document.getElementById("botaoAbrirPg3");
+    if (botaoAbrirPg3) {
+        botaoAbrirPg3.addEventListener("click", function () {
+            window.open("3index.html", "_self");
+        });
+    }
+
+    const botaoAnalisarPg2 = document.getElementById("botaoAnalisarPg2");
+    if (botaoAnalisarPg2) {
+        botaoAnalisarPg2.addEventListener("click", function () {
+
+            const selecaoTipoPg2 = document.getElementById("selecaoTipoPg2");
+            const entradaTextoPg2 = document.getElementById("entradaTextoPg2");
+
+            let textoParaAnalisar = "";
+            if (selecaoTipoPg2 && selecaoTipoPg2.selectedIndex === 0) {
+                textoParaAnalisar = informacaoSalva;
+            } else {
+                textoParaAnalisar = (entradaTextoPg2 && entradaTextoPg2.value) ? entradaTextoPg2.value : "";
+            }
+
+            textoParaAnalisar = (textoParaAnalisar || "").trim();
+            const vetorPalavras = textoParaAnalisar.length > 0 ? textoParaAnalisar.split(/\s+/) : [];
+
+            const totalPalavrasPg2 = document.getElementById("totalPalavrasPg2");
+            if (totalPalavrasPg2) totalPalavrasPg2.innerHTML = vetorPalavras.length;
+
+            const palavrasComMPg2 = document.getElementById("palavrasComMPg2");
+            const primeiraPalavraPg2 = document.getElementById("primeiraPalavraPg2");
+            const segundaPalavraPg2 = document.getElementById("segundaPalavraPg2");
+            const ultimaPalavraPg2 = document.getElementById("ultimaPalavraPg2");
+
+            const palavrasM = vetorPalavras.filter(p => p.charAt(0).toUpperCase() === "M");
+
+            if (palavrasComMPg2) palavrasComMPg2.value = palavrasM.join(" ");
+            if (primeiraPalavraPg2) primeiraPalavraPg2.value = vetorPalavras[0] || "";
+            if (segundaPalavraPg2) segundaPalavraPg2.value = vetorPalavras[1] || "";
+            if (ultimaPalavraPg2) ultimaPalavraPg2.value = vetorPalavras[vetorPalavras.length - 1] || "";
+        });
+    }
+
+    const entradaFalasPg3 = document.getElementById("entradaFalasPg3");
+    const botaoFalasPg3 = document.getElementById("botaoFalasPg3");
+    const caixaFalasPg3 = document.getElementById("caixaFalasPg3");
+
+    if (botaoFalasPg3 && entradaFalasPg3 && caixaFalasPg3) {
+        botaoFalasPg3.addEventListener("click", function () {
+
+            let nroFalas = parseInt(entradaFalasPg3.value);
+            if (isNaN(nroFalas) || nroFalas <= 0) {
+                alert("Número de falas inválido. Informe um número positivo.");
+                return;
+            }
+
+            caixaFalasPg3.innerHTML = "";
+
+            for (let i = 0; i < nroFalas; i++) {
+                const fala = document.createElement("p");
+                fala.textContent = "Ho ho ho! Feliz Natal!";
+                caixaFalasPg3.appendChild(fala);
+            }
+        });
+    }
+
+});
+
+
+    </script>
+</body>
+</html>

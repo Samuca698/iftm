@@ -1,17 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/estilos.css">
-    <title>Document</title>
+<meta charset="UTF-8">
+<title>Jogo da Memória</title>
+
+<style>
+
+
+
+body {
+    font-family: Arial;
+    background: #d3d3d3;
+    padding: 20px;
+}
+
+h2 {
+    margin-bottom: 5px;
+}
+
+input, select, button {
+    font-size: 16px;
+    padding: 5px 10px;
+    margin: 4px;
+}
+
+
+#painel {
+    margin: 10px 0;
+    padding: 10px;
+    background: #eee;
+    display: inline-block;
+}
+
+#tabuleiro {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+
+.carta {
+    width: 90px;
+    height: 130px;
+    border: 2px solid black;
+    cursor: pointer;
+    background: white;
+}
+
+.carta img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.desativada {
+    opacity: 0.4;
+    cursor: default;
+}
+
+</style>
 </head>
 <body>
-    <script>
 
-window.addEventListener("load", function () {
-  const linksCartas = [
-            "https://github.com/Samuca698/iftm/blob/main/ex6/carta1.png?raw=true", 
+<h2>Jogo da Memória</h2>
+
+<label>Nome do Jogador:</label>
+<input type="text" id="nomeJogador">
+<button onclick="iniciar()">Iniciar Jogo</button>
+
+<br>
+
+<select id="nivel">
+    <option value="4">Fácil (4 pares)</option>
+    <option value="8">Médio (8 pares)</option>
+    <option value="12">Difícil (12 pares)</option>
+</select>
+
+<div id="painel">
+    <p id="mostrarJogador"></p>
+    <p>Pontuação: <span id="pontuacao">0</span></p>
+    <p>Tentativas: <span id="tentativas">0</span></p>
+    <p>Aproveitamento: <span id="aprov">0%</span></p>
+</div>
+
+<div id="tabuleiro"></div>
+
+<script>
+
+
+
+let primeira = null;
+let segunda = null;
+let trancado = false;
+
+let pontos = 0;
+let tentativas = 0;
+let paresTotal = 0;
+let paresFeitos = 0;
+
+const verso = "https://github.com/Samuca698/iftm/blob/main/ex6/verso.png?raw=true"; 
+
+const imagens = [
+      "https://github.com/Samuca698/iftm/blob/main/ex6/carta1.png?raw=true", 
             "https://github.com/Samuca698/iftm/blob/main/ex6/carta2.png?raw=true", 
             "https://github.com/Samuca698/iftm/blob/main/ex6/carta3.png?raw=true", 
             "https://github.com/Samuca698/iftm/blob/main/ex6/carta4.png?raw=true", 
@@ -38,61 +129,134 @@ window.addEventListener("load", function () {
             "https://github.com/Samuca698/iftm/blob/main/ex6/carta25.png?raw=true", 
             "https://github.com/Samuca698/iftm/blob/main/ex6/carta26.png?raw=true", 
             "https://github.com/Samuca698/iftm/blob/main/ex6/carta27.png?raw=true" 
-        ];
-      
-        let vetorCartas = [];
-        for (let i = 1; i <= 27; i++) {
-            vetorCartas.push(i);
-        }
-        
-        function gerarParesAleatorios(vetorBase, quantidadePares) {
-            let vetorPares = [];
-            let copiaVetor = [...vetorBase]; 
+];
 
-            for (let i = 0; i < quantidadePares; i++) {
-                let indice = Math.floor(Math.random() * copiaVetor.length);
-                let numero = copiaVetor[indice];
-                vetorPares.push(numero, numero); 
-                copiaVetor.splice(indice, 1); 
-            }
+function iniciar() {
 
-            return vetorPares;
-        }
+    let jogador = document.getElementById("nomeJogador").value.trim();
 
-        function embaralhar(vetor) {
-            for (let i = vetor.length - 1; i > 0; i--) {
-                let j = Math.floor(Math.random() * (i + 1));
-                [vetor[i], vetor[j]] = [vetor[j], vetor[i]];
-            }
-        }
+    if (jogador === "") {
+        alert("Digite o nome do jogador!");
+        return;
+    }
 
-        function exibirCartas(vetorPares) {
-            let tabuleiro = document.getElementById("tabuleiro");
-            tabuleiro.innerHTML = ""; 
+    document.getElementById("mostrarJogador").innerHTML = 
+        "Jogador: <b>" + jogador + "</b>";
 
-            vetorPares.forEach(num => {
-                let img = document.createElement("img");
-                img.src = linksCartas[num - 1]; 
-                img.alt = `Carta ${num}`;
-                tabuleiro.appendChild(img);
-            });
-        }
+    pontos = 0;
+    tentativas = 0;
+    paresFeitos = 0;
 
-        document.getElementById("btnGerar").addEventListener("click", function() {
-            let vetorPares = gerarParesAleatorios(vetorCartas, 4); 
-            embaralhar(vetorPares);
-            exibirCartas(vetorPares);
-        });
+    document.getElementById("pontuacao").innerText = 0;
+    document.getElementById("tentativas").innerText = 0;
+    document.getElementById("aprov").innerText = "0%";
 
-    main();
-})
+    gerarCartas();
+}
 
-      
-    </script>
+function gerarCartas() {
 
-  <h1>Jogo da Memoria</h1>
-    <button id="btnGerar">Mostrar Cartas</button>
-    <div id="tabuleiro"></div>
+    const nivel = parseInt(document.getElementById("nivel").value);
+    paresTotal = nivel;
 
+    let escolhidas = imagens.slice(0, nivel);
+    let cartas = [];
+
+    escolhidas.forEach(img => {
+        cartas.push({img: img});
+        cartas.push({img: img});
+    });
+
+    cartas.sort(() => Math.random() - 0.5);
+
+    const tabuleiro = document.getElementById("tabuleiro");
+    tabuleiro.innerHTML = "";
+
+    cartas.forEach((cartaObj) => {
+
+        let carta = document.createElement("div");
+        carta.className = "carta";
+        carta.dataset.img = cartaObj.img;
+
+        let img = document.createElement("img");
+        img.src = verso;
+
+        carta.appendChild(img);
+        carta.addEventListener("click", () => virar(carta));
+
+        tabuleiro.appendChild(carta);
+    });
+}
+
+function virar(carta) {
+
+    if (trancado) {
+        alert("Aguarde a análise das cartas!");
+        return;
+    }
+
+    if (carta.classList.contains("desativada")) return;
+
+    // Evita clicar duas vezes na mesma carta
+    if (carta === primeira) return;
+
+    let img = carta.querySelector("img");
+    img.src = carta.dataset.img;
+
+    if (!primeira) {
+        primeira = carta;
+        return;
+    }
+
+    segunda = carta;
+    trancado = true;
+
+    tentativas++;
+    document.getElementById("tentativas").innerText = tentativas;
+
+    setTimeout(analisar, 800);
+}
+
+function analisar() {
+
+    let img1 = primeira.dataset.img;
+    let img2 = segunda.dataset.img;
+
+    if (img1 === img2) {
+
+        pontos++;
+        paresFeitos++;
+
+        primeira.classList.add("desativada");
+        segunda.classList.add("desativada");
+
+        document.getElementById("pontuacao").innerText = pontos;
+
+    } else {
+
+        primeira.querySelector("img").src = verso;
+        segunda.querySelector("img").src = verso;
+    }
+
+    atualizarAproveitamento();
+
+    primeira = null;
+    segunda = null;
+    trancado = false;
+
+    if (paresFeitos === paresTotal) {
+        setTimeout(() => alert("Fim do jogo!"), 300);
+    }
+}
+
+function atualizarAproveitamento() {
+    let ap = (pontos / tentativas) * 100;
+    document.getElementById("aprov").innerText = 
+        isNaN(ap) ? "0%" : ap.toFixed(2) + "%";
+}
+
+
+
+</script>
 </body>
 </html>
